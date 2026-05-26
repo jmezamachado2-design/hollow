@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/Room.gd" id="1_room"]
+[ext_resource type="Script" path="res://scripts/levels/CameraLimit.gd" id="2_cam_limit"]
+
+[node name="Room" type="Node2D"]
+script = ExtResource("1_room")
+
+[node name="TileMap" type="TileMap" parent="."]
+
+[node name="CameraLimit" type="Node2D" parent="."]
+script = ExtResource("2_cam_limit")
+
+[node name="EntryPoints" type="Node2D" parent="."]
+
+[node name="default" type="Marker2D" parent="EntryPoints"]
+position = Vector2(48, 140)
+
+[node name="left" type="Marker2D" parent="EntryPoints"]
+position = Vector2(24, 140)
+
+[node name="right" type="Marker2D" parent="EntryPoints"]
+position = Vector2(296, 140)
+
+[node name="Transitions" type="Node2D" parent="."]
+
+[node name="Entities" type="Node2D" parent="."]

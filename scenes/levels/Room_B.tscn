@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/levels/Room.tscn" id="1_room"]
+[ext_resource type="Script" path="res://scripts/levels/RoomTransition.gd" id="2_transition"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/Crawler.tscn" id="3_crawler"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(320, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_transition"]
+size = Vector2(12, 120)
+
+[node name="Room" instance=ExtResource("1_room")]
+room_display_name = "Room B"
+room_scene_path = "res://scenes/levels/Room_B.tscn"
+default_entry_id = "default"
+
+[node name="CameraLimit" parent="."]
+limit_left = 0
+limit_top = 0
+limit_right = 320
+limit_bottom = 180
+
+[node name="default" parent="EntryPoints" index="0"]
+position = Vector2(160, 140)
+
+[node name="left" parent="EntryPoints" index="1"]
+position = Vector2(24, 140)
+
+[node name="right" parent="EntryPoints" index="2"]
+position = Vector2(296, 140)
+
+[node name="Floor" type="StaticBody2D" parent="Entities"]
+position = Vector2(160, 172)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/Floor"]
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="Crawler" parent="Entities" instance=ExtResource("3_crawler")]
+position = Vector2(160, 158)
+
+[node name="TransitionLeft" type="Area2D" parent="Transitions"]
+position = Vector2(6, 100)
+script = ExtResource("2_transition")
+target_room_path = "res://scenes/levels/Room_A.tscn"
+target_entry_id = "right"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Transitions/TransitionLeft"]
+shape = SubResource("RectangleShape2D_transition")

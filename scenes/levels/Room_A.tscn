@@ -1,0 +1,71 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/levels/Room.tscn" id="1_room"]
+[ext_resource type="Script" path="res://scripts/levels/RoomTransition.gd" id="2_transition"]
+[ext_resource type="PackedScene" path="res://scenes/levels/Checkpoint.tscn" id="3_checkpoint"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/Crawler.tscn" id="4_crawler"]
+[ext_resource type="Script" path="res://scripts/levels/Hazard.gd" id="5_hazard"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(320, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_transition"]
+size = Vector2(12, 120)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hazard"]
+size = Vector2(48, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_platform"]
+size = Vector2(56, 8)
+
+[node name="Room" instance=ExtResource("1_room")]
+room_display_name = "Room A"
+room_scene_path = "res://scenes/levels/Room_A.tscn"
+default_entry_id = "default"
+
+[node name="Floor" type="StaticBody2D" parent="Entities"]
+position = Vector2(160, 172)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/Floor"]
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="Platform" type="StaticBody2D" parent="Entities"]
+position = Vector2(120, 130)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/Platform"]
+shape = SubResource("RectangleShape2D_platform")
+
+[node name="Checkpoint" parent="Entities" instance=ExtResource("3_checkpoint")]
+position = Vector2(88, 156)
+entry_point_id = "default"
+
+[node name="Crawler" parent="Entities" instance=ExtResource("4_crawler")]
+position = Vector2(200, 158)
+
+[node name="SpikePit" type="Area2D" parent="Entities"]
+position = Vector2(260, 168)
+script = ExtResource("5_hazard")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/SpikePit"]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_hazard")
+
+[node name="Visual" type="ColorRect" parent="Entities/SpikePit"]
+offset_left = -24.0
+offset_top = -4.0
+offset_right = 24.0
+offset_bottom = 12.0
+color = Color(0.9, 0.15, 0.2, 0.85)
+
+[node name="TransitionRight" type="Area2D" parent="Transitions"]
+position = Vector2(314, 100)
+script = ExtResource("2_transition")
+target_room_path = "res://scenes/levels/Room_B.tscn"
+target_entry_id = "left"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Transitions/TransitionRight"]
+shape = SubResource("RectangleShape2D_transition")

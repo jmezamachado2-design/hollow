@@ -1,0 +1,4 @@
+res://scripts/autoload/AudioManager.gd
+res://scripts/enemies/Crawler.gd
+res://scripts/enemies/Enemy.gd
+res://scenes/Main.tscn
